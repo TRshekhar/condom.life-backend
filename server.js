@@ -15,12 +15,24 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ── Middleware ────────────────────────────────────────────────────────────────
+const allowedOrigins = [
+  "https://condom-life-frontend.vercel.app",
+  "https://condom-life-frontend-git-main-oms-projects-fb551d36.vercel.app"
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json({ limit: "10kb" }));
 app.set("trust proxy", 1);
 
