@@ -25,6 +25,16 @@ app.use(
       // allow requests with no origin (Postman, mobile apps)
       if (!origin) return callback(null, true);
 
+      // allow your custom domain
+      if (origin === "https://condom.life") {
+        return callback(null, true);
+      }
+
+      // allow www version
+      if (origin === "https://www.condom.life") {
+        return callback(null, true);
+      }
+
       // allow localhost (development)
       if (origin.includes("localhost")) {
         return callback(null, true);
