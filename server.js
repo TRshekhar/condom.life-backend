@@ -16,17 +16,31 @@ const PORT = process.env.PORT || 5000;
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 const allowedOrigins = [
-  condom-life-frontend-git-main-oms-projects-fb551d36.vercel.app,
+  process.env.ALLOWED_ORIGIN, // your custom domain
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      // allow requests with no origin (Postman, mobile apps)
+      if (!origin) return callback(null, true);
+
+      // allow localhost (development)
+      if (origin.includes("localhost")) {
+        return callback(null, true);
       }
+
+      // allow your main domain
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // allow all vercel preview domains
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
