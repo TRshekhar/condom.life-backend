@@ -17,7 +17,6 @@ const PORT = process.env.PORT || 5000;
 // ── Middleware ────────────────────────────────────────────────────────────────
 const allowedOrigins = [
   "https://condom-life-frontend.vercel.app",
-  "https://condom-life-frontend-git-main-oms-projects-fb551d36.vercel.app"
 ];
 
 app.use(
